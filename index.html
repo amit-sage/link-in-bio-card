@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amit | Software Engineer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.37);
+      width: 100%;
+      max-width: 360px;
+      padding: 30px 20px;
+      text-align: center;
+      color: #fff;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      margin-bottom: 15px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .card h1 {
+      font-size: 26px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #e0e0e0;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 14px;
+      text-decoration: none;
+      color: white;
+      transition: 0.3s ease;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .links a:hover {
+      background: rgba(255,255,255,0.3);
+      color: #000;
+    }
+
+    .card footer {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #ccc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        padding: 25px 15px;
+      }
+
+      .card h1 {
+        font-size: 22px;
+      }
+
+      .card p {
+        font-size: 13px;
+      }
+
+      .links a {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
+    /* Style the video: 100% width and height to cover the entire window */
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+/* Add some content at the bottom of the video/page */
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Style the button used to pause/play the video */
+#myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#myBtn:hover {
+  background: #ddd;
+  color: black;
+}
+
+  </style>
+</head>
+<body>
+    <video autoplay muted loop id="myVideo">
+  <source src="baground.mp4" type="video/mp4">
+</video>
+  <div class="card">
+    <img src="profile.jpg" alt="Amit's Profile" class="avatar">
+    <h1>Amit Choudhary</h1>
+    <p>UI/UX Designer | MERN Stack Developer</p>
+    <div class="links">
+      <a href="https://www.youtube.com/@mystudybuilder"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="http://amitcode.zya.me/"><i class="fas fa-briefcase"></i> Portfolio</a>
+      <a href="https://www.linkedin.com/in/amit-kumar-434162293/"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/amit-sage"><i class="fab fa-github"></i> GitHub</a>
+      <a href="mailto:contact.amitkumar143@gmail.com"><i class="fas fa-envelope"></i> Contact</a>
+    </div>
+    <footer>&copy;2025 Amit Choudhary. All Rights Reserved.</footer>
+  </div>
+</body>
+</html>
