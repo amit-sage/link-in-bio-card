@@ -14,126 +14,148 @@
     }
 
     body {
-      background: linear-gradient(135deg, #000000, #000000);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      overflow: hidden;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.37);
       width: 100%;
-      max-width: 400px;
-      padding: 40px 30px;
+      max-width: 360px;
+      padding: 30px 20px;
       text-align: center;
       color: #fff;
-      opacity: 0;
-      transform: translateY(50px);
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card.out {
-      animation: fadeOutDown 0.6s ease forwards;
-    }
-
-    @keyframes fadeOutDown {
-      to {
-        opacity: 0;
-        transform: translateY(50px);
-      }
+      animation: fadeIn 1s ease-in-out;
     }
 
     .avatar {
-      width: 130px;
-      height: 130px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #fff;
-      box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+      border: 3px solid #fff;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      margin-bottom: 15px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .card h1 {
+      font-size: 26px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .card p {
+      font-size: 14px;
       margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    p {
-      font-size: 16px;
       color: #e0e0e0;
-      margin-bottom: 25px;
     }
 
     .links {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .links a {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 14px;
       text-decoration: none;
       color: white;
       transition: 0.3s ease;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
     }
 
     .links a:hover {
-      background: rgba(255, 255, 255, 0.4);
-      color: #1f4037;
+      background: rgba(255,255,255,0.3);
+      color: #000;
     }
 
-    footer {
-      margin-top: 30px;
-      font-size: 13px;
+    .card footer {
+      margin-top: 25px;
+      font-size: 12px;
       color: #ccc;
     }
 
-    @media (max-width: 480px) {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 400px) {
       .card {
-        padding: 30px 20px;
+        padding: 25px 15px;
       }
 
-      h1 {
-        font-size: 24px;
+      .card h1 {
+        font-size: 22px;
       }
 
-      p {
-        font-size: 14px;
+      .card p {
+        font-size: 13px;
       }
 
       .links a {
         font-size: 14px;
-        padding: 10px 14px;
+        padding: 10px 16px;
       }
     }
+    /* Style the video: 100% width and height to cover the entire window */
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+/* Add some content at the bottom of the video/page */
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Style the button used to pause/play the video */
+#myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#myBtn:hover {
+  background: #ddd;
+  color: black;
+}
+
   </style>
 </head>
 <body>
-<div class="card">
+    <video autoplay muted loop id="myVideo">
+  <source src="baground.mp4" type="video/mp4">
+</video>
+  <div class="card">
     <img src="profile.jpg" alt="Amit's Profile" class="avatar">
     <h1>Amit Choudhary</h1>
     <p>UI/UX Designer | MERN Stack Developer</p>
@@ -146,11 +168,5 @@
     </div>
     <footer>&copy;2025 Amit Choudhary. All Rights Reserved.</footer>
   </div>
-  <script>
-    window.addEventListener("beforeunload", function () {
-      const card = document.getElementById("profileCard");
-      card.classList.add("out");
-    });
-  </script>
 </body>
 </html>
