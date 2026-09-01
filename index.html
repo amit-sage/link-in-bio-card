@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio and links for Amit Choudhary, UI/UX Designer and MERN Stack Developer." />
   <title>Amit | Software Engineer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -14,7 +15,8 @@
     }
 
     body {
-      background: linear-gradient(135deg, #ffd194, #b67b2e, #ffd194);
+      /* Slightly darkened the gradient for better text contrast */
+      background: linear-gradient(135deg, #f5c07b, #a36a25, #f5c07b);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -34,6 +36,7 @@
       padding: 40px 30px;
       text-align: center;
       color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3); /* Improved contrast */
       animation: fadeInUp 1s ease forwards;
       opacity: 0;
       transform: translateY(50px);
@@ -62,6 +65,18 @@
       margin-bottom: 5px;
     }
 
+    /* Screen reader only text class */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
     .typing {
       color: #e0e0e0;
       font-size: 16px;
@@ -69,11 +84,21 @@
       height: 20px;
     }
 
+    .typing::after {
+      content: '|';
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     .links {
       display: flex;
       flex-direction: column;
       gap: 14px;
-      overflow-y: hidden; /* default */
+      overflow-y: hidden;
     }
 
     .links a,
@@ -96,6 +121,9 @@
     .resume-btn:hover {
       background: rgba(255, 255, 255, 0.4);
       color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-shadow: none; /* Remove text shadow on hover for cleaner dark text */
     }
 
     .resume-btn {
@@ -109,6 +137,7 @@
       color: #ccc;
       margin-top: 8px;
       animation: bounce 1.5s infinite;
+      transition: opacity 0.3s ease; /* Smooth fade out */
     }
 
     @keyframes bounce {
@@ -145,7 +174,6 @@
         display: block;
       }
 
-      /* nicer mobile scrollbar */
       .links::-webkit-scrollbar {
         width: 3px;
       }
@@ -161,9 +189,13 @@
   <div class="card" id="profileCard">
     <img src="profile.jpg" alt="Amit's Profile" class="avatar">
     <h1>Amit Choudhary</h1>
-    <div class="typing" id="typingText">Loading...</div>
+    
+    <!-- Screen reader accessible text for the roles -->
+    <div class="sr-only">UI/UX Designer, MERN Stack Developer, and Content Creator.</div>
+    <!-- aria-hidden hides the visual animation from screen readers -->
+    <div class="typing" id="typingText" aria-hidden="true"></div>
 
-    <div class="links">
+    <div class="links" id="linksContainer">
       <a href="https://www.youtube.com/@mystudybuilder" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
       <a href="http://amitcode.zya.me/" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i> Portfolio</a>
       <a href="https://www.linkedin.com/in/amit-kumar-434162293/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
@@ -173,37 +205,64 @@
     </div>
 
     <!-- Down arrow shown only on mobile -->
-    <div class="down-arrow">
+    <div class="down-arrow" id="downArrow">
       <i class="fas fa-chevron-down"></i>
     </div>
 
     <a class="resume-btn" href="resume.pdf" download><i class="fas fa-file-download"></i> Download Resume</a>
 
-    <footer>&copy;2025 Amit Choudhary. All Rights Reserved.</footer>
+    <footer id="footerText"></footer>
   </div>
 
   <script>
+    // --- Dynamic Footer Year ---
+    document.getElementById("footerText").innerHTML = `&copy;${new Date().getFullYear()} Amit Choudhary. All Rights Reserved.`;
+
+    // --- Typing Effect with Backspace ---
     const roles = ["UI/UX Designer", "MERN Stack Developer", "Content Creator"];
     let currentRole = 0;
     let index = 0;
+    let isDeleting = false;
     const typingText = document.getElementById("typingText");
 
     function typeRole() {
-      if (index < roles[currentRole].length) {
-        typingText.textContent += roles[currentRole].charAt(index);
-        index++;
-        setTimeout(typeRole, 100);
+      const currentString = roles[currentRole];
+      
+      if (isDeleting) {
+        typingText.textContent = currentString.substring(0, index - 1);
+        index--;
       } else {
-        setTimeout(() => {
-          index = 0;
-          typingText.textContent = "";
-          currentRole = (currentRole + 1) % roles.length;
-          typeRole();
-        }, 1800);
+        typingText.textContent = currentString.substring(0, index + 1);
+        index++;
       }
-    }
 
+      let typeSpeed = isDeleting ? 50 : 100;
+
+      if (!isDeleting && index === currentString.length) {
+        typeSpeed = 1500; // Pause at the end of the word
+        isDeleting = true;
+      } else if (isDeleting && index === 0) {
+        isDeleting = false;
+        currentRole = (currentRole + 1) % roles.length;
+        typeSpeed = 500; // Pause before typing the next word
+      }
+      setTimeout(typeRole, typeSpeed);
+    }
+    
     typeRole();
+
+    // --- Mobile Scroll Arrow Logic ---
+    const linksContainer = document.getElementById('linksContainer');
+    const downArrow = document.getElementById('downArrow');
+    
+    linksContainer.addEventListener('scroll', () => {
+      // If scrolled near the bottom (within 10px tolerance), hide the arrow
+      if (linksContainer.scrollHeight - linksContainer.scrollTop <= linksContainer.clientHeight + 10) {
+        downArrow.style.opacity = '0';
+      } else {
+        downArrow.style.opacity = '1';
+      }
+    });
   </script>
 </body>
 </html>
