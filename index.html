@@ -184,7 +184,6 @@
       white-space: nowrap;
       position: relative;
       margin-bottom: 25px;
-      /* Fades the edges of the marquee for a cleaner look */
       mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     }
@@ -223,7 +222,7 @@
       color: var(--text-color);
       margin-bottom: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: none; /* Hidden until data fetches successfully */
+      display: none; 
     }
     .latest-video-card:hover {
       transform: translateY(-4px);
@@ -292,6 +291,7 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      overflow-y: hidden; 
     }
 
     .links a, .action-btn {
@@ -333,6 +333,20 @@
       flex-direction: column;
       gap: 10px;
     }
+    
+    .down-arrow {
+      display: none;
+      font-size: 20px;
+      color: #ccc;
+      margin-top: 8px;
+      animation: bounce 1.5s infinite;
+      transition: opacity 0.3s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
 
     footer {
       margin-top: 30px;
@@ -354,6 +368,23 @@
       .card { padding: 30px 20px; }
       .theme-toggle { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 18px; }
       .video-thumbnail { height: 120px; }
+      
+      /* Restored Mobile Scroll Logic */
+      .links {
+        max-height: 35vh; 
+        min-height: 180px;
+        overflow-y: auto;
+        padding-right: 5px;
+      }
+      
+      .down-arrow { display: block; }
+      
+      .links::-webkit-scrollbar { width: 4px; }
+      .links::-webkit-scrollbar-track { background: transparent; }
+      .links::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+      }
     }
   </style>
 </head>
@@ -377,14 +408,12 @@
       <!-- Automated Skills Marquee -->
       <div class="marquee-container">
         <div class="marquee-content">
-          <!-- First set of skills -->
           <span class="skill-tag"><i class="fab fa-html5"></i> HTML</span>
           <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS</span>
           <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span>
           <span class="skill-tag"><i class="fas fa-layer-group"></i> MERN Stack</span>
           <span class="skill-tag"><i class="fab fa-java"></i> Java</span>
           <span class="skill-tag"><i class="fas fa-code-branch"></i> Data Structures & Algorithms</span>
-          <!-- Duplicate set for seamless infinite looping -->
           <span class="skill-tag"><i class="fab fa-html5"></i> HTML</span>
           <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS</span>
           <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span>
@@ -414,6 +443,11 @@
         </a>
         <a href="https://www.snapchat.com/add/amitab0001?share_id=kh4Mj4O39BQ&locale=en-GB" class="snapchat" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-snapchat"></i> Snapchat</a>
         <a href="mailto:contact.amitkumar143@gmail.com" class="contact"><i class="fas fa-envelope"></i> Contact</a>
+      </div>
+      
+      <!-- Restored Bouncing Arrow -->
+      <div class="down-arrow" id="downArrow">
+        <i class="fas fa-chevron-down"></i>
       </div>
 
       <div class="button-group">
@@ -454,10 +488,9 @@
     });
 
     // --- 3. Dynamic YouTube Video Fetcher ---
-    // IMPORTANT: Replace the string below with your actual YouTube Channel ID (starts with UC)
     const YOUTUBE_CHANNEL_ID = "UCYMSy-tR1D-BGzWaSLp65Xw"; 
     
-    if (YOUTUBE_CHANNEL_ID !== "UCYMSy-tR1D-BGzWaSLp65Xw") {
+    if (YOUTUBE_CHANNEL_ID) {
       const rssUrl = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`);
       const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
@@ -472,7 +505,6 @@
             ytCard.href = latestVideo.link;
             document.getElementById('ytThumbnail').style.backgroundImage = `url(${latestVideo.thumbnail})`;
             
-            // Display the card once data is loaded
             ytCard.style.display = 'block';
           }
         })
@@ -520,7 +552,19 @@
     }
     typeRole();
 
-    // --- 6. Footer & Native Web Share API ---
+    // --- 6. Restored Mobile Scroll Logic ---
+    const linksContainer = document.getElementById('linksContainer');
+    const downArrow = document.getElementById('downArrow');
+    
+    if(linksContainer && downArrow) {
+      linksContainer.addEventListener('scroll', () => {
+        const isBottom = linksContainer.scrollHeight - linksContainer.scrollTop <= linksContainer.clientHeight + 10;
+        downArrow.style.opacity = isBottom ? '0' : '1';
+        downArrow.style.pointerEvents = isBottom ? 'none' : 'auto';
+      });
+    }
+
+    // --- 7. Footer & Native Web Share API ---
     document.getElementById("footerText").innerHTML = `&copy;${new Date().getFullYear()} Amit Kumar. All Rights Reserved.`;
 
     const shareBtn = document.getElementById('shareBtn');
