@@ -43,14 +43,14 @@
       justify-content: center;
       align-items: center;
       padding: 20px;
-      overflow-x: hidden; /* Prevents horizontal scroll from blobs */
-      overflow-y: auto;   /* Allows vertical scroll on very small screens */
+      overflow-x: hidden;
+      overflow-y: auto;
       position: relative;
       color: var(--text-color);
     }
 
     .bg-shape {
-      position: fixed; /* Changed to fixed so they stay put during scroll */
+      position: fixed;
       border-radius: 50%;
       filter: blur(80px);
       z-index: 0;
@@ -115,7 +115,7 @@
       opacity: 0;
       transform: translateY(30px);
       z-index: 10;
-      margin: 40px 0; /* Ensures spacing on top/bottom for scrolling */
+      margin: 40px 0;
     }
 
     @keyframes fadeInUp {
@@ -171,18 +171,120 @@
     .typing {
       color: #e0e0e0;
       font-size: clamp(14px, 4vw, 16px);
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       height: 20px;
     }
+    .typing::after { content: '|'; animation: blink 0.8s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-    .typing::after {
-      content: '|';
-      animation: blink 0.8s infinite;
+    /* --- Animated Skills Marquee --- */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      margin-bottom: 25px;
+      /* Fades the edges of the marquee for a cleaner look */
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+    .marquee-content {
+      display: inline-block;
+      animation: scrollMarquee 20s linear infinite;
+    }
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+    .skill-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      margin: 0 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-color);
+      text-shadow: none;
+    }
+    @keyframes scrollMarquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    /* --- Dynamic YouTube Video Component --- */
+    .latest-video-card {
+      display: block;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text-color);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: none; /* Hidden until data fetches successfully */
+    }
+    .latest-video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .video-thumbnail {
+      width: 100%;
+      height: 140px;
+      background-color: #222;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .video-thumbnail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      transition: background 0.3s ease;
+    }
+    .latest-video-card:hover .video-thumbnail::after {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .play-icon {
+      font-size: 45px;
+      color: rgba(255, 255, 255, 0.9);
+      z-index: 2;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .latest-video-card:hover .play-icon {
+      color: #FF0000;
+      transform: scale(1.1);
+    }
+    .video-info {
+      padding: 12px;
+      text-align: left;
+    }
+    .video-badge {
+      background: #FF0000;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: inline-block;
+      text-shadow: none;
+    }
+    .video-title {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-shadow: none;
     }
 
     /* --- Links & Buttons --- */
@@ -190,11 +292,9 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      overflow-y: hidden;
     }
 
-    .links a,
-    .action-btn {
+    .links a, .action-btn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -212,14 +312,12 @@
       width: 100%;
     }
 
-    .links a:hover,
-    .action-btn:hover {
+    .links a:hover, .action-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       text-shadow: none;
     }
 
-    /* Brand Colors */
     .links a.youtube:hover { background: #FF0000; color: white; }
     .links a.portfolio:hover { background: #4CAF50; color: white; }
     .links a.linkedin:hover { background: #0077b5; color: white; }
@@ -236,20 +334,6 @@
       gap: 10px;
     }
 
-    .down-arrow {
-      display: none;
-      font-size: 20px;
-      color: #ccc;
-      margin-top: 8px;
-      animation: bounce 1.5s infinite;
-      transition: opacity 0.3s ease;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
-    }
-
     footer {
       margin-top: 30px;
       font-size: 13px;
@@ -261,32 +345,15 @@
       .card { transform-style: preserve-3d; }
       .avatar { transform: translateZ(30px); }
       .avatar:hover { transform: translateZ(40px) scale(1.08) rotate(5deg); }
-      h1, .links, .button-group { transform: translateZ(20px); }
-      .typing { transform: translateZ(15px); }
+      h1, .latest-video-card, .links, .button-group { transform: translateZ(20px); }
+      .typing, .marquee-container { transform: translateZ(15px); }
       footer { transform: translateZ(10px); }
     }
 
     @media (max-width: 480px) {
       .card { padding: 30px 20px; }
       .theme-toggle { top: 15px; right: 15px; width: 40px; height: 40px; font-size: 18px; }
-      
-      /* Dynamic height based on viewport for better mobile scaling */
-      .links {
-        max-height: 35vh; 
-        min-height: 180px;
-        overflow-y: auto;
-        padding-right: 5px;
-      }
-      
-      .down-arrow { display: block; }
-      
-      /* Mobile Custom Scrollbar */
-      .links::-webkit-scrollbar { width: 4px; }
-      .links::-webkit-scrollbar-track { background: transparent; }
-      .links::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-      }
+      .video-thumbnail { height: 120px; }
     }
   </style>
 </head>
@@ -307,6 +374,37 @@
       <div class="sr-only">UI/UX Designer, MERN Stack Developer, and Content Creator.</div>
       <div class="typing" id="typingText" aria-hidden="true"></div>
 
+      <!-- Automated Skills Marquee -->
+      <div class="marquee-container">
+        <div class="marquee-content">
+          <!-- First set of skills -->
+          <span class="skill-tag"><i class="fab fa-html5"></i> HTML</span>
+          <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS</span>
+          <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span>
+          <span class="skill-tag"><i class="fas fa-layer-group"></i> MERN Stack</span>
+          <span class="skill-tag"><i class="fab fa-java"></i> Java</span>
+          <span class="skill-tag"><i class="fas fa-code-branch"></i> Data Structures & Algorithms</span>
+          <!-- Duplicate set for seamless infinite looping -->
+          <span class="skill-tag"><i class="fab fa-html5"></i> HTML</span>
+          <span class="skill-tag"><i class="fab fa-css3-alt"></i> CSS</span>
+          <span class="skill-tag"><i class="fab fa-js"></i> JavaScript</span>
+          <span class="skill-tag"><i class="fas fa-layer-group"></i> MERN Stack</span>
+          <span class="skill-tag"><i class="fab fa-java"></i> Java</span>
+          <span class="skill-tag"><i class="fas fa-code-branch"></i> Data Structures & Algorithms</span>
+        </div>
+      </div>
+
+      <!-- Dynamic YouTube Fetcher -->
+      <a href="#" class="latest-video-card" id="ytVideoLink" target="_blank" rel="noopener noreferrer">
+        <div class="video-thumbnail" id="ytThumbnail">
+          <i class="fas fa-play-circle play-icon"></i>
+        </div>
+        <div class="video-info">
+          <span class="video-badge">Latest Video</span>
+          <p class="video-title" id="ytTitle">Loading latest video...</p>
+        </div>
+      </a>
+
       <div class="links" id="linksContainer">
         <a href="https://www.youtube.com/@mystudybuilder" class="youtube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
         <a href="http://amitcode.zya.me/" class="portfolio" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i> Portfolio</a>
@@ -318,10 +416,6 @@
         <a href="mailto:contact.amitkumar143@gmail.com" class="contact"><i class="fas fa-envelope"></i> Contact</a>
       </div>
 
-      <div class="down-arrow" id="downArrow">
-        <i class="fas fa-chevron-down"></i>
-      </div>
-
       <div class="button-group">
         <button class="action-btn share" id="shareBtn"><i class="fas fa-share-nodes"></i> Share Profile</button>
         <a class="action-btn resume" href="resume.pdf" download><i class="fas fa-file-download"></i> Download Resume</a>
@@ -331,29 +425,23 @@
     </div>
   </main>
 
-  <!-- Vanilla Tilt 3D Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
   
   <script>
-    // 1. Safe 3D Tilt Initialization (Desktop Only)
+    // --- 1. Desktop 3D Tilt Initialization ---
     if (window.innerWidth > 480 && typeof VanillaTilt !== 'undefined') {
       VanillaTilt.init(document.querySelector(".card"), {
-        max: 12,
-        speed: 400,
-        glare: true,
-        "max-glare": 0.15
+        max: 12, speed: 400, glare: true, "max-glare": 0.15
       });
     }
 
-    // 2. Dark Mode Toggle
+    // --- 2. Dark Mode Toggle ---
     const themeToggleBtn = document.getElementById('themeToggle');
     const themeIcon = themeToggleBtn.querySelector('i');
-    
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark-theme');
       themeIcon.classList.replace('fa-moon', 'fa-sun');
     }
-
     themeToggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-theme');
       if (document.body.classList.contains('dark-theme')) {
@@ -365,7 +453,33 @@
       }
     });
 
-    // 3. Safe GitHub API Fetching
+    // --- 3. Dynamic YouTube Video Fetcher ---
+    // IMPORTANT: Replace the string below with your actual YouTube Channel ID (starts with UC)
+    const YOUTUBE_CHANNEL_ID = "UCYMSy-tR1D-BGzWaSLp65Xw"; 
+    
+    if (YOUTUBE_CHANNEL_ID !== "UCYMSy-tR1D-BGzWaSLp65Xw") {
+      const rssUrl = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`);
+      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+      fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'ok' && data.items.length > 0) {
+            const latestVideo = data.items[0];
+            const ytCard = document.getElementById('ytVideoLink');
+            
+            document.getElementById('ytTitle').textContent = latestVideo.title;
+            ytCard.href = latestVideo.link;
+            document.getElementById('ytThumbnail').style.backgroundImage = `url(${latestVideo.thumbnail})`;
+            
+            // Display the card once data is loaded
+            ytCard.style.display = 'block';
+          }
+        })
+        .catch(err => console.error('Error fetching YouTube data:', err));
+    }
+
+    // --- 4. Live GitHub API Fetching ---
     fetch('https://api.github.com/users/amit-sage')
       .then(response => response.json())
       .then(data => {
@@ -376,22 +490,13 @@
       })
       .catch(error => console.error('GitHub API Error:', error));
 
-    // 4. Dynamic Footer Year
-    const footerElement = document.getElementById("footerText");
-    if(footerElement) {
-      footerElement.innerHTML = `&copy;${new Date().getFullYear()} Amit Kumar. All Rights Reserved.`;
-    }
-
-    // 5. Typing Effect
+    // --- 5. Typing Effect ---
     const roles = ["UI/UX Designer", "MERN Stack Developer", "Content Creator"];
-    let currentRole = 0;
-    let index = 0;
-    let isDeleting = false;
+    let currentRole = 0, index = 0, isDeleting = false;
     const typingText = document.getElementById("typingText");
 
     function typeRole() {
       if(!typingText) return;
-      
       const currentString = roles[currentRole];
       
       if (isDeleting) {
@@ -403,7 +508,6 @@
       }
 
       let typeSpeed = isDeleting ? 50 : 100;
-
       if (!isDeleting && index === currentString.length) {
         typeSpeed = 1500;
         isDeleting = true;
@@ -414,22 +518,11 @@
       }
       setTimeout(typeRole, typeSpeed);
     }
-    
     typeRole();
 
-    // 6. Mobile Scroll Arrow Logic
-    const linksContainer = document.getElementById('linksContainer');
-    const downArrow = document.getElementById('downArrow');
-    
-    if(linksContainer && downArrow) {
-      linksContainer.addEventListener('scroll', () => {
-        const isBottom = linksContainer.scrollHeight - linksContainer.scrollTop <= linksContainer.clientHeight + 10;
-        downArrow.style.opacity = isBottom ? '0' : '1';
-        downArrow.style.pointerEvents = isBottom ? 'none' : 'auto';
-      });
-    }
+    // --- 6. Footer & Native Web Share API ---
+    document.getElementById("footerText").innerHTML = `&copy;${new Date().getFullYear()} Amit Kumar. All Rights Reserved.`;
 
-    // 7. Native Web Share API
     const shareBtn = document.getElementById('shareBtn');
     if(shareBtn) {
       shareBtn.addEventListener('click', async () => {
@@ -438,18 +531,11 @@
           text: 'Check out my links and portfolio!',
           url: window.location.href
         };
-
         if (navigator.share) {
-          try {
-            await navigator.share(shareData);
-          } catch (err) {
-            console.log('Sharing cancelled or failed.');
-          }
+          try { await navigator.share(shareData); } catch (err) {}
         } else {
           navigator.clipboard.writeText(window.location.href).then(() => {
             alert("Profile link copied to clipboard!");
-          }).catch(() => {
-            alert("Copy this link to share: " + window.location.href);
           });
         }
       });
