@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolio and links for Amit Choudhary, UI/UX Designer and MERN Stack Developer." />
+  <meta name="description" content="Portfolio and links for Amit Kumar, UI/UX Designer and MERN Stack Developer." />
   <title>Amit | Software Engineer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -15,7 +15,6 @@
     }
 
     body {
-      /* Slightly darkened the gradient for better text contrast */
       background: linear-gradient(135deg, #f5c07b, #a36a25, #f5c07b);
       min-height: 100vh;
       display: flex;
@@ -23,11 +22,46 @@
       align-items: center;
       padding: 20px;
       overflow: hidden;
+      position: relative;
     }
 
+    /* --- Animated Background Elements --- */
+    .bg-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      animation: floatShape 12s infinite alternate ease-in-out;
+    }
+    
+    .shape1 {
+      width: 350px;
+      height: 350px;
+      background: rgba(255, 255, 255, 0.4);
+      top: -50px;
+      left: -100px;
+    }
+
+    .shape2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 87, 34, 0.3);
+      bottom: -100px;
+      right: -100px;
+      animation-duration: 15s;
+      animation-direction: alternate-reverse;
+    }
+
+    @keyframes floatShape {
+      0% { transform: translateY(0) scale(1) translateX(0); }
+      100% { transform: translateY(-60px) scale(1.1) translateX(40px); }
+    }
+
+    /* --- Main Card Styles --- */
     .card {
-      background: rgba(234,182,118, 0.15);
+      background: rgba(234, 182, 118, 0.15);
       backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px); /* Safari support */
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
@@ -36,10 +70,11 @@
       padding: 40px 30px;
       text-align: center;
       color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3); /* Improved contrast */
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       animation: fadeInUp 1s ease forwards;
       opacity: 0;
       transform: translateY(50px);
+      z-index: 10; /* Keeps card above background blobs */
     }
 
     @keyframes fadeInUp {
@@ -49,6 +84,7 @@
       }
     }
 
+    /* --- Profile Picture Interaction --- */
     .avatar {
       width: 110px;
       height: 110px;
@@ -57,6 +93,12 @@
       border: 4px solid #fff;
       box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
       margin-bottom: 20px;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    }
+
+    .avatar:hover {
+      transform: scale(1.08) rotate(5deg);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
     }
 
     h1 {
@@ -65,7 +107,6 @@
       margin-bottom: 5px;
     }
 
-    /* Screen reader only text class */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -102,7 +143,7 @@
     }
 
     .links a,
-    .resume-btn {
+    .action-btn {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -112,23 +153,37 @@
       border-radius: 12px;
       text-decoration: none;
       color: white;
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
       font-size: 16px;
       font-weight: 500;
-    }
-
-    .links a:hover,
-    .resume-btn:hover {
-      background: rgba(255, 255, 255, 0.4);
-      color: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-shadow: none; /* Remove text shadow on hover for cleaner dark text */
-    }
-
-    .resume-btn {
-      margin-top: 15px;
+      border: none;
       cursor: pointer;
+      width: 100%;
+    }
+
+    /* --- Brand-Specific Hover Colors --- */
+    .links a:hover,
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      text-shadow: none;
+    }
+
+    .links a.youtube:hover { background: #FF0000; color: white; }
+    .links a.portfolio:hover { background: #4CAF50; color: white; }
+    .links a.linkedin:hover { background: #0077b5; color: white; }
+    .links a.github:hover { background: #24292e; color: white; }
+    .links a.snapchat:hover { background: #FFFC00; color: black; }
+    .links a.contact:hover { background: #EA4335; color: white; }
+    
+    .action-btn.share:hover { background: #1DA1F2; color: white; }
+    .action-btn.resume:hover { background: rgba(255, 255, 255, 0.8); color: #000; }
+
+    .button-group {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .down-arrow {
@@ -137,7 +192,7 @@
       color: #ccc;
       margin-top: 8px;
       animation: bounce 1.5s infinite;
-      transition: opacity 0.3s ease; /* Smooth fade out */
+      transition: opacity 0.3s ease;
     }
 
     @keyframes bounce {
@@ -152,32 +207,16 @@
     }
 
     @media (max-width: 480px) {
-      .card {
-        padding: 30px 20px;
-      }
-
-      h1 {
-        font-size: 22px;
-      }
-
-      .typing {
-        font-size: 14px;
-      }
-
+      .card { padding: 30px 20px; }
+      h1 { font-size: 22px; }
+      .typing { font-size: 14px; }
       .links {
         max-height: 180px;
         overflow-y: auto;
         padding-right: 5px;
       }
-
-      .down-arrow {
-        display: block;
-      }
-
-      .links::-webkit-scrollbar {
-        width: 3px;
-      }
-
+      .down-arrow { display: block; }
+      .links::-webkit-scrollbar { width: 3px; }
       .links::-webkit-scrollbar-thumb {
         background: #ffffff;
         border-radius: 10px;
@@ -186,37 +225,43 @@
   </style>
 </head>
 <body>
+
+  <!-- Animated Background Shapes -->
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
+
   <div class="card" id="profileCard">
     <img src="profile.jpg" alt="Amit's Profile" class="avatar">
-    <h1>Amit Choudhary</h1>
+    <h1>Amit Kumar</h1>
     
-    <!-- Screen reader accessible text for the roles -->
     <div class="sr-only">UI/UX Designer, MERN Stack Developer, and Content Creator.</div>
-    <!-- aria-hidden hides the visual animation from screen readers -->
     <div class="typing" id="typingText" aria-hidden="true"></div>
 
     <div class="links" id="linksContainer">
-      <a href="https://www.youtube.com/@mystudybuilder" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
-      <a href="http://amitcode.zya.me/" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i> Portfolio</a>
-      <a href="https://www.linkedin.com/in/amit-kumar-434162293/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
-      <a href="https://github.com/amit-sage" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
-      <a href="https://www.snapchat.com/add/amitab0001?share_id=kh4Mj4O39BQ&locale=en-GB" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-snapchat"></i> Snapchat</a>
-      <a href="mailto:contact.amitkumar143@gmail.com"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="https://www.youtube.com/@mystudybuilder" class="youtube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="http://amitcode.zya.me/" class="portfolio" target="_blank" rel="noopener noreferrer"><i class="fas fa-briefcase"></i> Portfolio</a>
+      <a href="https://www.linkedin.com/in/amit-kumar-434162293/" class="linkedin" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/amit-sage" class="github" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://www.snapchat.com/add/amitab0001?share_id=kh4Mj4O39BQ&locale=en-GB" class="snapchat" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-snapchat"></i> Snapchat</a>
+      <a href="mailto:contact.amitkumar143@gmail.com" class="contact"><i class="fas fa-envelope"></i> Contact</a>
     </div>
 
-    <!-- Down arrow shown only on mobile -->
     <div class="down-arrow" id="downArrow">
       <i class="fas fa-chevron-down"></i>
     </div>
 
-    <a class="resume-btn" href="resume.pdf" download><i class="fas fa-file-download"></i> Download Resume</a>
+    <!-- Action Buttons (Share & Resume) -->
+    <div class="button-group">
+      <button class="action-btn share" id="shareBtn"><i class="fas fa-share-nodes"></i> Share Profile</button>
+      <a class="action-btn resume" href="resume.pdf" download><i class="fas fa-file-download"></i> Download Resume</a>
+    </div>
 
     <footer id="footerText"></footer>
   </div>
 
   <script>
     // --- Dynamic Footer Year ---
-    document.getElementById("footerText").innerHTML = `&copy;${new Date().getFullYear()} Amit Choudhary. All Rights Reserved.`;
+    document.getElementById("footerText").innerHTML = `&copy;${new Date().getFullYear()} Amit Kumar. All Rights Reserved.`;
 
     // --- Typing Effect with Backspace ---
     const roles = ["UI/UX Designer", "MERN Stack Developer", "Content Creator"];
@@ -239,12 +284,12 @@
       let typeSpeed = isDeleting ? 50 : 100;
 
       if (!isDeleting && index === currentString.length) {
-        typeSpeed = 1500; // Pause at the end of the word
+        typeSpeed = 1500;
         isDeleting = true;
       } else if (isDeleting && index === 0) {
         isDeleting = false;
         currentRole = (currentRole + 1) % roles.length;
-        typeSpeed = 500; // Pause before typing the next word
+        typeSpeed = 500;
       }
       setTimeout(typeRole, typeSpeed);
     }
@@ -255,12 +300,37 @@
     const linksContainer = document.getElementById('linksContainer');
     const downArrow = document.getElementById('downArrow');
     
-    linksContainer.addEventListener('scroll', () => {
-      // If scrolled near the bottom (within 10px tolerance), hide the arrow
-      if (linksContainer.scrollHeight - linksContainer.scrollTop <= linksContainer.clientHeight + 10) {
-        downArrow.style.opacity = '0';
+    if(linksContainer && downArrow) {
+      linksContainer.addEventListener('scroll', () => {
+        if (linksContainer.scrollHeight - linksContainer.scrollTop <= linksContainer.clientHeight + 10) {
+          downArrow.style.opacity = '0';
+        } else {
+          downArrow.style.opacity = '1';
+        }
+      });
+    }
+
+    // --- Native Web Share API ---
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const shareData = {
+        title: 'Amit Kumar - Portfolio',
+        text: 'Check out my links and portfolio!',
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          console.log('Error sharing or sharing cancelled:', err);
+        }
       } else {
-        downArrow.style.opacity = '1';
+        // Fallback for browsers that don't support native sharing
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          alert("Profile link copied to clipboard!");
+        }).catch(err => {
+          alert("Copy this link to share: " + window.location.href);
+        });
       }
     });
   </script>
